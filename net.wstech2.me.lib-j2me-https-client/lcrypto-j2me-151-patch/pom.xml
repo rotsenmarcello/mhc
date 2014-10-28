@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.bouncycastle</groupId>
+	<artifactId>lcrypto-j2me</artifactId>
+	<packaging>jar</packaging>
+	<name>Bouncy Castle Lightweight API for J2ME</name>
+	<version>1.51</version>
+	<properties>
+		<j2me.version>2.0.4</j2me.version>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.3</source>
+					<target>1.1</target>
+					<compilerArguments>
+						<bootclasspath>${settings.localRepository}/org/microemu/cldcapi11/${j2me.version}/cldcapi11-${j2me.version}.jar${path.separator}${settings.localRepository}/org/microemu/midpapi20/${j2me.version}/midpapi20-${j2me.version}.jar
+						</bootclasspath>
+					</compilerArguments>
+					<excludes>
+      					<exclude>**/src/main/java/org/bouncycastle/openpgp/examples/*.java</exclude>
+    				</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.microemu</groupId>
+			<artifactId>microemulator</artifactId>
+			<version>${j2me.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.microemu</groupId>
+			<artifactId>cldcapi11</artifactId>
+			<version>${j2me.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.microemu</groupId>
+			<artifactId>midpapi20</artifactId>
+			<version>${j2me.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpg-jdk14</artifactId>
+			<version>1.50</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+</project>

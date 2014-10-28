@@ -1,0 +1,65 @@
+*** org/bouncycastle/crypto/tls/TlsProtocol.java	Sun Oct 26 00:36:49 2014
+--- org/bouncycastle/crypto/tls/TlsProtocol.java	Sun Oct 26 01:04:53 2014
+***************
+*** 429,436 ****
+                   */
+                  return -1;
+              }
+! 
+!             safeReadRecord();
+          }
+  
+          len = Math.min(len, applicationDataQueue.size());
+--- 429,440 ----
+                   */
+                  return -1;
+              }
+!             try {
+!             	safeReadRecord();
+!             }
+!             catch(EOFException e){
+!             	return -1;
+!             }
+          }
+  
+          len = Math.min(len, applicationDataQueue.size());
+***************
+*** 458,465 ****
+              }
+              throw e;
+          }
+!         catch (IOException e)
+          {
+              if (!this.closed)
+              {
+                  this.failWithError(AlertLevel.fatal, AlertDescription.internal_error, "Failed to read record", e);
+--- 462,473 ----
+              }
+              throw e;
+          }
+!         catch (EOFException e)
+          {
++         	throw e;
++         }
++         catch (IOException e)
++         {        	
+              if (!this.closed)
+              {
+                  this.failWithError(AlertLevel.fatal, AlertDescription.internal_error, "Failed to read record", e);
+***************
+*** 471,477 ****
+              if (!this.closed)
+              {
+                  this.failWithError(AlertLevel.fatal, AlertDescription.internal_error, "Failed to read record", e);
+!             }
+              throw e;
+          }
+      }
+--- 479,485 ----
+              if (!this.closed)
+              {
+                  this.failWithError(AlertLevel.fatal, AlertDescription.internal_error, "Failed to read record", e);
+!             }            
+              throw e;
+          }
+      }
