@@ -1,0 +1,10 @@
+/bin/
+/deployed/
+/target/
+/Application Descriptor
+/build.properties
+/.mtj.tmp/
+/.settings/
+/.classpath
+/.mtj
+/.project

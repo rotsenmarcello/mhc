@@ -1,0 +1,211 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.wstech2.me</groupId>
+	<artifactId>lib-j2me-https-client-samples</artifactId>
+	<version>1.0.0</version>
+
+	<properties>
+		<!-- MicroEmulator Version -->
+		<j2me.version>2.0.4</j2me.version>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>java</executable>
+					<arguments>
+						<argument>-classpath</argument>
+						<!-- automatically creates the classpath using all project dependencies, 
+							also adding the project build directory -->
+						<classpath />
+						<!-- MicroEmulator will be used to launch the MIDlet -->
+						<argument>org.microemu.app.Main</argument>
+						<argument>${project.build.directory}/${project.artifactId}-${project.version}-me.jad</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.pyx4me</groupId>
+				<artifactId>j2me-maven-plugin</artifactId>
+				<version>2.0.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>package</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<j2meConfiguration>CLDC-1.1</j2meConfiguration>
+					<proguard>true</proguard>
+					<obfuscate>true</obfuscate>
+					<proguardPreverify>true</proguardPreverify>
+					<proguardInclude>${basedir}/proguard.conf</proguardInclude>
+					<midletVendor>WS/Tech Informatica LTDA</midletVendor>
+					<proguardOptions>
+						<options>
+							<option>-ignorewarnings</option>
+							<option>-dontusemixedcaseclassnames</option>
+							<option>-defaultpackage ''</option>
+							<option>-keep public class * extends
+								javax.microedition.midlet.MIDlet</option>
+							<option>-keep public class net.wstech2.me.httpsclient.*</option>
+						</options>
+					</proguardOptions>
+					<jadAttributes>
+						<Created-By>WS/Tech Informatica LTDA.</Created-By>
+						<MIDlet-Name>lib-j2me-https-client-samples</MIDlet-Name>
+						<MIDlet-Permissions>
+							javax.microedition.io.Connector.socket,javax.microedition.io.Connector.http,javax.microedition.io.Connector.https
+						</MIDlet-Permissions>
+					</jadAttributes>
+					<midlets>
+						<MIDlet>
+							<name>j2me-https-client-samples</name>
+							<icon>/icon.png</icon>
+							<class>net.wstech2.me.httpsclient.tests.TestRunner</class>
+						</MIDlet>
+					</midlets>
+					<useWtkLibs>false</useWtkLibs>
+					<libs>
+						<lib>${settings.localRepository}/org/microemu/cldcapi11/${j2me.version}/cldcapi11-${j2me.version}.jar</lib>
+						<lib>${settings.localRepository}/org/microemu/midpapi20/${j2me.version}/midpapi20-${j2me.version}.jar</lib>
+					</libs>
+					<dependencies>
+						<dependency>
+							<groupId>org.microemu</groupId>
+							<artifactId>microemulator</artifactId>
+							<exclude>true</exclude>
+						</dependency>
+						<dependency>
+							<groupId>org.microemu</groupId>
+							<artifactId>cldcapi11</artifactId>
+							<exclude>true</exclude>
+						</dependency>
+						<dependency>
+							<groupId>org.microemu</groupId>
+							<artifactId>midpapi20</artifactId>
+							<exclude>true</exclude>
+						</dependency>
+					</dependencies>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.3</source>
+					<target>1.3</target>
+					<compilerArguments>
+						<bootclasspath>${settings.localRepository}/org/microemu/cldcapi11/${j2me.version}/cldcapi11-${j2me.version}.jar${path.separator}${settings.localRepository}/org/microemu/midpapi20/${j2me.version}/midpapi20-${j2me.version}.jar</bootclasspath>
+					</compilerArguments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.microemu</groupId>
+			<artifactId>microemulator</artifactId>
+			<version>${j2me.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.microemu</groupId>
+			<artifactId>cldcapi11</artifactId>
+			<version>${j2me.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.microemu</groupId>
+			<artifactId>midpapi20</artifactId>
+			<version>${j2me.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.wstech2.me</groupId>
+			<artifactId>lib-j2me-https-client</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>debug</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.1</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<executable>java</executable>
+							<arguments>
+								<argument>-agentlib:jdwp=transport=dt_socket,address=127.0.0.1:8000,server=y,suspend=n</argument>
+								<argument> -classpath</argument>
+								<classpath />
+								<argument>org.microemu.app.Main</argument>
+								<argument>${project.build.directory}/${project.artifactId}-${project.version}-me.jad</argument>
+							</arguments>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>com.pyx4me</groupId>
+						<artifactId>j2me-maven-plugin</artifactId>
+						<version>2.0.4</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>package</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<j2meConfiguration>CLDC-1.1</j2meConfiguration>
+							<proguard>true</proguard>
+							<obfuscate>true</obfuscate>
+							<proguardPreverify>true</proguardPreverify>
+							<proguardInclude>${basedir}/proguard.conf</proguardInclude>
+							<midletVendor>WS/Tech Informatica LTDA</midletVendor>
+							<proguardOptions>
+								<options>
+									<option>-ignorewarnings</option>
+									<option>-dontusemixedcaseclassnames</option>
+									<option>-defaultpackage ''</option>
+									<option>-keep public class * extends
+										javax.microedition.midlet.MIDlet</option>
+									<option>-keep class
+										net.wstech2.me.httpsclient.*** { *; }</option>
+									<option>-keepclasseswithmembers class org.bouncycastle.*** { *; }</option>
+									<option>-keep  class org.bouncycastle.asn1.*** { *; }</option>
+									<option>-keepattributes SourceFile,LineNumberTable</option>
+								</options>
+							</proguardOptions>
+						</configuration>
+					</plugin>
+
+
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
+</project>
