@@ -25,6 +25,6 @@ package net.wstech2.me.httpsclient.tests;
 public interface ConnectionTest {
 
 
-	public void run() throws Exception;
+	public boolean run() throws Exception;
 	
 }

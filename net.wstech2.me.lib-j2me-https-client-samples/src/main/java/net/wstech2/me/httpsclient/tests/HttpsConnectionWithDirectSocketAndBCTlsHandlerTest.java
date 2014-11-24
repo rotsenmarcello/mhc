@@ -32,23 +32,24 @@ public class HttpsConnectionWithDirectSocketAndBCTlsHandlerTest implements Conne
 
 	
 
-	public void run() {
+	public boolean run() throws Exception {
 		String response = null;
 		SocketConnection connection = null;
 		boolean httpsRequestOK = false;
 		String url = "socket://" + TestRunner.TEST_DEST_HOSTNAME + ":" + TestRunner.TEST_DEST_HTTPS_PORT;
-		HttpsConnectionUtils.logDebug("[HTTPS Test with Direct Socket / BC TLS Handler] -> STARTING");
-		HttpsConnectionUtils.logDebug("[HTTPS Test with Direct Socket / BC TLS Handler] -> URL [" + url + "]");
+		TestRunner.getInstance().logDebug("[HTTPS Test with Direct Socket / BC TLS Handler] -> STARTING");
+		TestRunner.getInstance().logDebug("[HTTPS Test with Direct Socket / BC TLS Handler] -> URL [" + url + "]");
 		try {
 
-			connection = (SocketConnection) Connector.open(url);
-
+			connection = (SocketConnection) Connector.open(url, Connector.READ_WRITE);
+			TestRunner.getInstance().logDebug("[HTTPS Test with Direct Socket / BC TLS Handler] -> Connection Opened");
 			InputStream in = connection.openInputStream();
 			OutputStream out = connection.openOutputStream();
 
+			TestRunner.getInstance().logDebug("[HTTPS Test with Direct Socket / BC TLS Handler] -> Calling getResponse");
 			response = TestUtils.getSSLResponse(in, out, TestRunner.TEST_HTTP_PROTOCOL_REQUEST);
-			HttpsConnectionUtils.logDebug("[HTTPS Test with Direct Socket / BC TLS Handler] -> Request returned the following CONTENT:\n");
-			HttpsConnectionUtils.logDebug(response);
+			TestRunner.getInstance().logDebug("[HTTPS Test with Direct Socket / BC TLS Handler] -> Request returned the following CONTENT:\n");
+			TestRunner.getInstance().logDebug(response);
 			httpsRequestOK = true;
 			in.close();
 			out.close();
@@ -57,6 +58,7 @@ public class HttpsConnectionWithDirectSocketAndBCTlsHandlerTest implements Conne
 			
 			HttpsConnectionUtils.logError("[HTTPS Test with Direct Socket / BC TLS Handler] -> HTTP over Socket /TLSHandler request test ended abnormally with the following error: ",
 					e);
+			throw e;
 
 		} finally {
 			if (connection != null) {
@@ -68,9 +70,9 @@ public class HttpsConnectionWithDirectSocketAndBCTlsHandlerTest implements Conne
 		}// end of HTTPS test
 
 		// Summary
-		HttpsConnectionUtils.logDebug("[HTTPS Test with Direct Socket / BC TLS Handler] -> Test result:"
+		TestRunner.getInstance().logDebug("[HTTPS Test with Direct Socket / BC TLS Handler] -> Test result:"
 				+ (httpsRequestOK ? "Success" : "Error") + ".");
-		HttpsConnectionUtils.logDebug("[HTTPS Test with Direct Socket / BC TLS Handler] -> FINISHED");
-
+		TestRunner.getInstance().logDebug("[HTTPS Test with Direct Socket / BC TLS Handler] -> FINISHED");
+		return httpsRequestOK;
 	}
 }

@@ -67,7 +67,7 @@
 						<Created-By>WS/Tech Informatica LTDA.</Created-By>
 						<MIDlet-Name>lib-j2me-https-client-samples</MIDlet-Name>
 						<MIDlet-Permissions>
-							javax.microedition.io.Connector.socket,javax.microedition.io.Connector.http,javax.microedition.io.Connector.https
+							javax.microedition.io.Connector.socket,javax.microedition.io.Connector.http,javax.microedition.io.Connector.https, javax.microedition.io.Connector.ssl,javax.microedition.io.Connector.datagram,javax.microedition.io.Connector.serversocket,javax.microedition.io.Connector.datagramreceiver
 						</MIDlet-Permissions>
 					</jadAttributes>
 					<midlets>

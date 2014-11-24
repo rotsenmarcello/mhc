@@ -33,7 +33,7 @@ public class HttpsConnectionWithLibMeHttpsClientTest implements ConnectionTest{
 
 	
 
-	public void run() {
+	public boolean run() throws Exception {
 		String response = null;
 		HttpsConnection connection = null;
 		boolean httpsRequestOK = false;
@@ -55,7 +55,7 @@ public class HttpsConnectionWithLibMeHttpsClientTest implements ConnectionTest{
 		} catch (Exception e) {
 			HttpsConnectionUtils.logError("[HTTPS Test with lib MHC (Me HTTPS Client)] -> Request test ended abnormally with the following error: ",
 					e);
-
+			throw e;
 		} finally {
 			if (connection != null) {
 				try {
@@ -68,7 +68,7 @@ public class HttpsConnectionWithLibMeHttpsClientTest implements ConnectionTest{
 		HttpsConnectionUtils.logDebug("[HTTPS Test with lib MHC (Me HTTPS Client)] -> Test result: ["
 				+ (httpsRequestOK ? "Success" : "Error") + "].");
 		HttpsConnectionUtils.logDebug("[HTTPS Test with lib MHC (Me HTTPS Client)] -> FINISHED");
-
+		return httpsRequestOK;
 	}
 
 }

@@ -31,7 +31,7 @@ import java.io.*;
 public class HttpConnectionWithoutCryptography implements ConnectionTest {
 
 
-	public void run() {
+	public boolean run() {
 		String response = null;
 		HttpConnection connection = null;
 		boolean httpRequestOK = false;
@@ -65,5 +65,6 @@ public class HttpConnectionWithoutCryptography implements ConnectionTest {
 		}
 		HttpsConnectionUtils.logDebug("[HTTP Test without Cryptgraphy] -> Test result: [" + (httpRequestOK ? "Success" : "Error") + "].");
 		HttpsConnectionUtils.logDebug("[HTTP Test without Cryptgraphy] -> FINISHED");
+		return httpRequestOK;
 	}
 }

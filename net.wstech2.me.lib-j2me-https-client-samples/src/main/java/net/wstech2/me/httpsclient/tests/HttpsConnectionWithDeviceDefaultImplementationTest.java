@@ -30,7 +30,7 @@ import net.wstech2.me.httpsclient.HttpsConnectionUtils;
 
 public class HttpsConnectionWithDeviceDefaultImplementationTest implements ConnectionTest {
 
-	public void run() {
+	public boolean run() {
 		String response = null;
 		HttpConnection connection = null;
 		boolean httpsRequestOK = false;
@@ -64,6 +64,6 @@ public class HttpsConnectionWithDeviceDefaultImplementationTest implements Conne
 		}
 		HttpsConnectionUtils.logDebug("[HTTPS Test with Device Implementation] -> Test result: [" + (httpsRequestOK ? "Success" : "Error") + "].");
 		HttpsConnectionUtils.logDebug("[HTTPS Test with Device Implementation] -> FINISHED");
-		
+		return httpsRequestOK;
 	}
 }
