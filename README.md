@@ -1,5 +1,5 @@
 
-About MHC (ME-Https-Client)
+<b>About MHC (ME-Https-Client)</b>
 
 MHC (ME-Https-Client) is a J2ME library written in Java which offers an alternative implementation for the javax.microedition.io.HttpsConnection interface.
 
@@ -12,7 +12,7 @@ Web site: http://www.wstech2.net/mhc/
 GitHub repository: https://github.com/rotsenmarcello/mhc/.
 
 
-Quick Usage Guide
+<b>Quick Usage Guide</b>
 
     Set up an Eclipse workspace for Java;
 
